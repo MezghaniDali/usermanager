@@ -26,3 +26,7 @@ Route::get('/test-mongo', function () {
         return "Connection failed: " . $e->getMessage();
     }
 });
+
+Route::get('/test-api', function () {
+    return view('test-api');
+});
