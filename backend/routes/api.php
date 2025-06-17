@@ -53,7 +53,6 @@ Route::prefix('auth')->group(function () {
 // Protected routes (authentication required)
 // Using custom middleware for token authentication
 Route::middleware('custom.token.auth')->group(function () {
-    
     // Auth routes
     Route::prefix('auth')->group(function () {
         Route::get('/profile', [AuthController::class, 'profile']);
@@ -61,8 +60,8 @@ Route::middleware('custom.token.auth')->group(function () {
         Route::post('/logout-all', [AuthController::class, 'logoutAll']);
     });
 
-    // User management routes (CRUD)
-    Route::prefix('users')->group(function () {
+    // User management routes (CRUD) - Admin only
+    Route::middleware('admin.only')->prefix('users')->group(function () {
         Route::get('/', [UserController::class, 'index']);           // GET /api/users - List all users
         Route::post('/', [UserController::class, 'store']);          // POST /api/users - Create new user
         Route::get('/stats', [UserController::class, 'stats']);      // GET /api/users/stats - User statistics

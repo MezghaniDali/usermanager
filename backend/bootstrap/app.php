@@ -15,6 +15,7 @@ return Application::configure(basePath: dirname(__DIR__))
         // Register your custom middleware alias
         $middleware->alias([
             'custom.token.auth' => \App\Http\Middleware\CustomTokenAuth::class,
+            'admin.only' => \App\Http\Middleware\AdminOnly::class,
         ]);
         
         // Optional: You can also add global middleware here if needed
