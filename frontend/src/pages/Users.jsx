@@ -5,6 +5,9 @@ import { useNavigate } from 'react-router-dom';
 import { Card } from '../components/ui/card';
 import api from '../lib/api';
 import EditUserModal from '../components/EditUserModal';
+import AddUserModal from '../components/AddUserModal';
+import { Button } from '../components/ui/button';
+import { ArrowLeft } from 'lucide-react';
 
 export default function UsersPage() {
   const { user } = useAuth();
@@ -13,6 +16,7 @@ export default function UsersPage() {
   const [loading, setLoading] = React.useState(true);
   const [editUser, setEditUser] = React.useState(null);
   const [editOpen, setEditOpen] = React.useState(false);
+  const [addOpen, setAddOpen] = React.useState(false);
 
   React.useEffect(() => {
     if (!user || user.role !== 'admin') {
@@ -70,6 +74,22 @@ export default function UsersPage() {
     setAllUsers(prev => prev.filter(u => (u.id || u._id) !== userId));
   };
 
+  const handleUserAdd = async (form, setError, setSaving) => {
+    try {
+      const res = await api.post('/users', form);
+      if (res.data && res.data.status === 'success') {
+        setAllUsers(prev => [res.data.data.user, ...prev]);
+        setAddOpen(false);
+      } else {
+        setError(res.data.message || 'Failed to add user');
+      }
+    } catch (err) {
+      setError(err.response?.data?.message || 'Failed to add user');
+    } finally {
+      setSaving(false);
+    }
+  };
+
   if (!user || user.role !== 'admin') {
     return (
       <Card className="p-6 text-center text-red-600">Access denied. Admins only.</Card>
@@ -78,15 +98,27 @@ export default function UsersPage() {
 
   return (
     <div className="max-w-7xl mx-auto py-8 px-4">
-      <h1 className="text-2xl font-bold mb-6">All Users</h1>
-      {loading ? (
-        <Card className="p-6 text-center text-gray-500">Loading users...</Card>
-      ) : (
-        <>
-          <UsersJsonTable users={allUsers} onUserEdit={handleUserEdit} onUserDeleted={handleUserDeleted} />
-          <EditUserModal user={editUser} open={editOpen} onClose={() => setEditOpen(false)} onSave={handleUserSave} />
-        </>
-      )}
+      <header className="bg-white shadow">
+        <div className="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+          <div className="flex items-center gap-2">
+            <Button size="sm" onClick={() => navigate(-1)} className="bg-black text-white hover:bg-gray-800">
+              &#8592; Back
+            </Button>
+            <h1 className="text-base font-semibold text-gray-900">Manage Users</h1>
+          </div>
+        </div>
+      </header>
+      <div className="max-w-7xl mx-auto py-8 px-4">
+        {loading ? (
+          <Card className="p-6 text-center text-gray-500">Loading users...</Card>
+        ) : (
+          <>
+            <UsersJsonTable users={allUsers} onUserEdit={handleUserEdit} onUserDeleted={handleUserDeleted} addUserButton={<Button className="bg-blue-600 text-white hover:bg-blue-700" onClick={() => setAddOpen(true)}>Add User</Button>} />
+            <EditUserModal user={editUser} open={editOpen} onClose={() => setEditOpen(false)} onSave={handleUserSave} />
+            <AddUserModal open={addOpen} onClose={() => setAddOpen(false)} onSave={handleUserAdd} />
+          </>
+        )}
+      </div>
     </div>
   );
 }

@@ -7,6 +7,7 @@ export default function Register() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirmation, setPasswordConfirmation] = useState('');
+  const [phone, setPhone] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -26,7 +27,7 @@ export default function Register() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
-        body: JSON.stringify({ name, email, password, password_confirmation: passwordConfirmation })
+        body: JSON.stringify({ name, email, password, password_confirmation: passwordConfirmation, phone })
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || 'Registration failed');
@@ -76,6 +77,13 @@ export default function Register() {
           value={passwordConfirmation}
           onChange={e => setPasswordConfirmation(e.target.value)}
           required
+          className="border rounded px-3 py-2"
+        />
+        <input
+          type="text"
+          placeholder="Phone (optional)"
+          value={phone}
+          onChange={e => setPhone(e.target.value)}
           className="border rounded px-3 py-2"
         />
         <button type="submit" disabled={loading} className="bg-black text-white rounded py-2 mt-2 disabled:opacity-50">

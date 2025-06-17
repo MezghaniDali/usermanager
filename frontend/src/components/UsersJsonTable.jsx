@@ -23,7 +23,7 @@ const DeleteIcon = () => (
   </svg>
 );
 
-export default function UsersJsonTable({ users, onUserDeleted, onUserEdit }) {
+export default function UsersJsonTable({ users, onUserDeleted, onUserEdit, addUserButton }) {
   const [searchTerm, setSearchTerm] = useState('');
   const [deletingId, setDeletingId] = useState(null);
 
@@ -66,8 +66,7 @@ export default function UsersJsonTable({ users, onUserDeleted, onUserEdit }) {
 
   return (
     <Card className="p-4">
-      <div className="font-semibold mb-2">All users (table for testing):</div>
-      <div className="mb-4 flex gap-2">
+      <div className="mb-4 flex gap-2 items-center justify-between">
         <input
           type="text"
           placeholder="Search by name, email, or role..."
@@ -75,6 +74,7 @@ export default function UsersJsonTable({ users, onUserDeleted, onUserEdit }) {
           onChange={e => setSearchTerm(e.target.value)}
           className="px-3 py-2 border border-gray-300 rounded w-full max-w-xs text-sm"
         />
+        {addUserButton}
       </div>
       <div style={{ maxHeight: '350px', overflowY: 'auto' }}>
         <Table>
