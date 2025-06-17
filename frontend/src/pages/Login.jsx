@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../lib/AuthContext';
 
-export default function Login({ onLogin }) {
+export default function Login() {
+  const navigate = useNavigate();
+  const { login } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -20,10 +24,9 @@ export default function Login({ onLogin }) {
         body: JSON.stringify({ email, password })
       });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.message || 'Login failed');
-      setSuccess(true);
-      console.log('Login success:', data); // See the response in the browser console
-      onLogin && onLogin(data);
+      if (!res.ok) throw new Error(data.message || 'Login failed');      setSuccess(true);
+      login(data.user);
+      navigate('/dashboard');
     } catch (err) {
       setError(err.message);
     } finally {

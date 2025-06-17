@@ -1,10 +1,60 @@
-import Login from "./components/Login";
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { AuthProvider, useAuth } from './lib/AuthContext';
+import Login from "./pages/Login";
+import Dashboard from "./pages/Dashboard";
+import Home from "./pages/Home";
+import Register from "./pages/Register"; // Import the Register component
+
+// Protected Route component
+const ProtectedRoute = ({ children }) => {
+  const { isAuthenticated } = useAuth();
+  
+  if (!isAuthenticated) {
+    return <Navigate to="/login" replace />;
+  }
+  
+  return children;
+};
+
+// App Routes
+function AppRoutes() {
+  const { isAuthenticated } = useAuth();
+
+  return (
+    <Routes>
+      <Route 
+        path="/login" 
+        element={isAuthenticated ? <Navigate to="/dashboard" replace /> : <Login />} 
+      />
+      <Route 
+        path="/dashboard" 
+        element={
+          <ProtectedRoute>
+            <Dashboard />
+          </ProtectedRoute>
+        } 
+      />
+      <Route 
+        path="/" 
+        element={<Home />} 
+      />
+      <Route 
+        path="/register" 
+        element={<Register />} 
+      />
+    </Routes>
+  );
+}
 
 function App() {
   return (
-    <div className="min-h-screen w-screen flex items-center justify-center bg-neutral-100">
-      <Login />
-    </div>
+    <Router>
+      <AuthProvider>
+        <div className="min-h-screen w-screen bg-neutral-100">
+          <AppRoutes />
+        </div>
+      </AuthProvider>
+    </Router>
   );
 }
 
