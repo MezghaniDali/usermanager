@@ -11,9 +11,15 @@ return Application::configure(basePath: dirname(__DIR__))
         commands: __DIR__.'/../routes/console.php',
         health: '/up',
     )
-    ->withMiddleware(function (Middleware $middleware): void {
-        //
+    ->withMiddleware(function (Middleware $middleware) {
+        // Register your custom middleware alias
+        $middleware->alias([
+            'custom.token.auth' => \App\Http\Middleware\CustomTokenAuth::class,
+        ]);
+        
+        // Optional: You can also add global middleware here if needed
+        // $middleware->append(\App\Http\Middleware\CustomTokenAuth::class);
     })
-    ->withExceptions(function (Exceptions $exceptions): void {
+    ->withExceptions(function (Exceptions $exceptions) {
         //
     })->create();

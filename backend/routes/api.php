@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\AuthController;
+use App\Http\Controllers\API\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -50,20 +51,38 @@ Route::prefix('auth')->group(function () {
 });
 
 // Protected routes (authentication required)
-Route::middleware('auth:sanctum')->group(function () {
+// Using custom middleware for token authentication
+Route::middleware('custom.token.auth')->group(function () {
+    
     // Auth routes
     Route::prefix('auth')->group(function () {
         Route::get('/profile', [AuthController::class, 'profile']);
         Route::post('/logout', [AuthController::class, 'logout']);
         Route::post('/logout-all', [AuthController::class, 'logoutAll']);
     });
-    
+
+    // User management routes (CRUD)
+    Route::prefix('users')->group(function () {
+        Route::get('/', [UserController::class, 'index']);           // GET /api/users - List all users
+        Route::post('/', [UserController::class, 'store']);          // POST /api/users - Create new user
+        Route::get('/stats', [UserController::class, 'stats']);      // GET /api/users/stats - User statistics
+        Route::get('/{id}', [UserController::class, 'show']);        // GET /api/users/{id} - Get specific user
+        Route::put('/{id}', [UserController::class, 'update']);      // PUT /api/users/{id} - Update user
+        Route::patch('/{id}', [UserController::class, 'update']);    // PATCH /api/users/{id} - Partial update
+        Route::delete('/{id}', [UserController::class, 'destroy']);  // DELETE /api/users/{id} - Delete user
+    });
+        
     // Test protected route
     Route::get('/protected-test', function (Request $request) {
         return response()->json([
             'status' => 'success',
             'message' => 'Protected route working!',
-            'user' => $request->user()
+            'user' => [
+                'id' => $request->user()->_id,
+                'name' => $request->user()->name,
+                'email' => $request->user()->email,
+                'role' => $request->user()->role,
+            ]
         ]);
     });
 });
