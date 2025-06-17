@@ -26,25 +26,21 @@ export default function Login() {
       });
       
       const data = await res.json();
-      console.log('Login API Response:', data); // Debug: See what Laravel returns
       
       if (!res.ok) throw new Error(data.message || 'Login failed');
       
       // Store the token (Laravel returns it in data.access_token)
       if (data.data && data.data.access_token) {
         localStorage.setItem('auth_token', data.data.access_token);
-        console.log('Token saved:', data.data.access_token); // Debug: Confirm token is saved
       }
       
       setSuccess(true);
       
       // Pass the user data to login function (Laravel returns it in data.data.user)
-      console.log('Calling login with user data:', data.data.user); // Debug: See user data
       login(data.data.user);
       
       navigate('/dashboard');
     } catch (err) {
-      console.error('Login error:', err); // Debug: See any errors
       setError(err.message);
     } finally {
       setLoading(false);
