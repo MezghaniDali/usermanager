@@ -1,5 +1,5 @@
 import React from 'react';
-import UsersJsonTable from '../components/UsersJsonTable';
+import UsersTable from '../components/UsersTable';
 import { useAuth } from '../lib/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { Card } from '../components/ui/card';
@@ -113,7 +113,7 @@ export default function UsersPage() {
           <Card className="p-6 text-center text-gray-500">Loading users...</Card>
         ) : (
           <>
-            <UsersJsonTable users={allUsers} onUserEdit={handleUserEdit} onUserDeleted={handleUserDeleted} addUserButton={<Button className="bg-blue-600 text-white hover:bg-blue-700" onClick={() => setAddOpen(true)}>Add User</Button>} />
+            <UsersTable users={allUsers} onUserEdit={handleUserEdit} onUserDeleted={handleUserDeleted} addUserButton={<Button className="bg-blue-600 text-white hover:bg-blue-700" onClick={() => setAddOpen(true)}>Add User</Button>} />
             <EditUserModal user={editUser} open={editOpen} onClose={() => setEditOpen(false)} onSave={handleUserSave} />
             <AddUserModal open={addOpen} onClose={() => setAddOpen(false)} onSave={handleUserAdd} />
           </>
