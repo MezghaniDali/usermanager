@@ -16,6 +16,7 @@ export default function Login() {
     setError('');
     setLoading(true);
     setSuccess(false);
+    
     try {
       const res = await fetch('http://localhost:8000/api/auth/login', {
         method: 'POST',
@@ -23,11 +24,27 @@ export default function Login() {
         credentials: 'include', // needed for Sanctum cookie auth
         body: JSON.stringify({ email, password })
       });
+      
       const data = await res.json();
-      if (!res.ok) throw new Error(data.message || 'Login failed');      setSuccess(true);
-      login(data.user);
+      console.log('Login API Response:', data); // Debug: See what Laravel returns
+      
+      if (!res.ok) throw new Error(data.message || 'Login failed');
+      
+      // Store the token (Laravel returns it in data.access_token)
+      if (data.data && data.data.access_token) {
+        localStorage.setItem('auth_token', data.data.access_token);
+        console.log('Token saved:', data.data.access_token); // Debug: Confirm token is saved
+      }
+      
+      setSuccess(true);
+      
+      // Pass the user data to login function (Laravel returns it in data.data.user)
+      console.log('Calling login with user data:', data.data.user); // Debug: See user data
+      login(data.data.user);
+      
       navigate('/dashboard');
     } catch (err) {
+      console.error('Login error:', err); // Debug: See any errors
       setError(err.message);
     } finally {
       setLoading(false);
