@@ -2,6 +2,14 @@ import React, { useState } from 'react';
 import { Card } from '../components/ui/card';
 import { Button } from '../components/ui/button';
 import api from '../lib/api';
+import {
+  Table,
+  TableHeader,
+  TableBody,
+  TableHead,
+  TableRow,
+  TableCell
+} from '../components/ui/table';
 
 // Simple SVG icons
 const EditIcon = () => (
@@ -68,28 +76,28 @@ export default function UsersJsonTable({ users, onUserDeleted, onUserEdit }) {
           className="px-3 py-2 border border-gray-300 rounded w-full max-w-xs text-sm"
         />
       </div>
-      <div style={{ maxHeight: '350px', overflowY: 'auto' }} className="overflow-x-auto">
-        <table className="min-w-full text-xs border border-gray-200">
-          <thead>
-            <tr>
+      <div style={{ maxHeight: '350px', overflowY: 'auto' }}>
+        <Table>
+          <TableHeader>
+            <TableRow>
               {allKeys.map(key => (
-                <th key={key} className="border px-2 py-1 bg-gray-100 text-left">{key}</th>
+                <TableHead key={key}>{key}</TableHead>
               ))}
-              <th className="border px-2 py-1 bg-gray-100 text-left">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
+              <TableHead>Actions</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
             {filteredUsers.length === 0 ? (
-              <tr>
-                <td colSpan={allKeys.length + 1} className="text-center text-gray-500 py-4">No users found.</td>
-              </tr>
+              <TableRow>
+                <TableCell colSpan={allKeys.length + 1} className="text-center text-gray-500 py-4">No users found.</TableCell>
+              </TableRow>
             ) : (
               filteredUsers.map((user, idx) => (
-                <tr key={user.id || user._id || idx}>
+                <TableRow key={user.id || user._id || idx}>
                   {allKeys.map(key => (
-                    <td key={key} className="border px-2 py-1">{String(user[key] ?? '')}</td>
+                    <TableCell key={key}>{String(user[key] ?? '')}</TableCell>
                   ))}
-                  <td className="border px-2 py-1">
+                  <TableCell>
                     <div className="flex gap-2">
                       <Button size="sm" className="bg-blue-600 hover:bg-blue-700 text-white px-2 py-1 text-xs"
                         onClick={() => onUserEdit ? onUserEdit(user) : alert('Edit not implemented')}
@@ -105,12 +113,12 @@ export default function UsersJsonTable({ users, onUserDeleted, onUserEdit }) {
                         {deletingId === (user.id || user._id) ? '...' : <DeleteIcon />}
                       </Button>
                     </div>
-                  </td>
-                </tr>
+                  </TableCell>
+                </TableRow>
               ))
             )}
-          </tbody>
-        </table>
+          </TableBody>
+        </Table>
       </div>
     </Card>
   );

@@ -4,6 +4,7 @@ import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import Home from "./pages/Home";
 import Register from "./pages/Register"; // Import the Register component
+import UsersPage from "./pages/Users"; // Import the UsersPage component
 
 // Protected Route component
 const ProtectedRoute = ({ children }) => {
@@ -41,6 +42,14 @@ function AppRoutes() {
       <Route 
         path="/register" 
         element={<Register />} 
+      />
+      <Route 
+        path="/users" 
+        element={
+          <ProtectedRoute>
+            <UsersPage />
+          </ProtectedRoute>
+        } 
       />
     </Routes>
   );
