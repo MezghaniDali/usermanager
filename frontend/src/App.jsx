@@ -1,9 +1,9 @@
-import { Button } from "@/components/ui/button";
+import Login from "./components/Login";
 
 function App() {
   return (
-    <div className="h-screen flex items-center justify-center bg-neutral-100">
-      <Button>Click me</Button>
+    <div className="min-h-screen w-screen flex items-center justify-center bg-neutral-100">
+      <Login />
     </div>
   );
 }
