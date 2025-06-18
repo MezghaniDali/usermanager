@@ -122,19 +122,20 @@ DB_DATABASE=usermanager
 
 ## 🖼️ Screenshots
 
+- ![Home Page](screenshots/home.png)
+- ![Register Page](screenshots/register.png)
+- ![Login Page](screenshots/login.png)
 - ![Admin Dashboard](screenshots/dashboard-admin.png)
 - ![User Dashboard](screenshots/dashboard-user.png)
-- ![Home Page](screenshots/home.png)
-- ![Login Page](screenshots/login.png)
 - ![Manage Users](screenshots/manageUsers.png)
 - ![Edit User Modal](screenshots/editModal.png)
-- ![Register Page](screenshots/register.png)
+
 
 ---
 
 ## ⚙️ Technical Choices & Trade-offs
 
-- **Sanctum:** Attempted but replaced due to MongoDB integration issues. Custom token system used for demo purposes.
+- **Sanctum:** Attempted, but replaced due to MongoDB integration issues. Custom token system used for demo purposes.
 - **jenssegers/laravel-mongodb:** Used for MongoDB Eloquent integration
 - **ShadCN UI:** For modern, accessible React component styling
 
