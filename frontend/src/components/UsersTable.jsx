@@ -76,8 +76,9 @@ export default function UsersTable({ users, onUserDeleted, onUserEdit, addUserBu
         />
         {addUserButton}
       </div>
-      <div style={{ maxHeight: '350px', overflowY: 'auto' }}>
-        <Table>
+
+      <div className="w-full overflow-x-auto">
+        <Table className="min-w-full">
           <TableHeader>
             <TableRow>
               {allKeys.map(key => (
