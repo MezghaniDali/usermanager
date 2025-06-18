@@ -46,13 +46,17 @@ class AuthController extends Controller
                 ], 422);
             }
 
+            // Determine role: first user is admin, others are user
+            $userCount = User::count();
+            $role = $userCount === 0 ? 'admin' : ($request->role ?? 'user');
+
             // Create the user
             $user = User::create([
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
                 'phone' => $request->phone,
-                'role' => $request->role ?? 'user',
+                'role' => $role,
             ]);
 
             // Create a simple token (without Sanctum for now)
