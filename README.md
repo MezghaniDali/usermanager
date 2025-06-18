@@ -76,6 +76,18 @@ env
 
 ---
 
+## 👤 User Roles & Access
+- **First registered user** automatically receives admin privileges
+- **Admin users** can:
+  - Access user management (CRUD operations via "Manage Users" button)
+  - View comprehensive dashboard with stats
+- **Regular users** have:
+  - Limited dashboard showing only their personal information
+  - No access to user management features
+
+--
+
+
 ## Why not Sanctum?
 > **Note:** I initially implemented Laravel Sanctum for authentication, as recommended. However, I encountered integration issues between Sanctum and MongoDB (via jenssegers/laravel-mongodb). Sanctum is designed for Eloquent (SQL) and requires extra workarounds for MongoDB, which can be unstable or time-consuming. To keep the project on track, I implemented a custom token system with secure middleware and validation. In a real-world SQL-based Laravel project, I would use Sanctum or Passport for authentication.
 
