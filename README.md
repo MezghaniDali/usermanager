@@ -102,13 +102,14 @@ env
 
 ## Screenshots
 
-![Admin Dashboard](screenshots/dashboard-admin.png)
-![User Dashboard](screenshots/dashboard-user.png)
 ![Home Page](screenshots/home.png)
+![Register Page](screenshots/register.png)
 ![Login Page](screenshots/login.png)
+![User Dashboard](screenshots/dashboard-user.png)
+![Admin Dashboard](screenshots/dashboard-admin.png)
 ![Manage Users](screenshots/manageUsers.png)
 ![Edit User Modal](screenshots/editModal.png)
-![Register Page](screenshots/register.png)
+
 
 ---
 
