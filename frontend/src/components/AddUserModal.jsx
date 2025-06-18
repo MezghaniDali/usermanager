@@ -20,12 +20,23 @@ export default function AddUserModal({ open, onClose, onSave }) {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
+  const validate = () => {
+    if (!form.name.trim()) return "Name is required.";
+    if (!form.email.trim()) return "Email is required.";
+    if (!/^\S+@\S+\.\S+$/.test(form.email)) return "Invalid email format.";
+    if (!form.password || form.password.length < 6) return "Password must be at least 6 characters.";
+    if (form.phone && !/^\d{6,15}$/.test(form.phone)) return "Phone must be numbers only (6-15 digits).";
+    if (!form.role) return "Role is required.";
+    return "";
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSaving(true);
     setError('');
-    if (!form.name || !form.email || !form.password || !form.role) {
-      setError('All fields except phone are required.');
+    const validationError = validate();
+    if (validationError) {
+      setError(validationError);
       setSaving(false);
       return;
     }
@@ -83,8 +94,8 @@ export default function AddUserModal({ open, onClose, onSave }) {
           </select>
           {error && <div className="text-red-600 text-sm">{error}</div>}
           <div className="flex gap-2 mt-4">
-            <button type="button" onClick={onClose} className="px-4 py-2 rounded border border-gray-300 bg-white text-gray-800 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-200">Cancel</button>
-            <Button type="submit" className="bg-blue-600 text-white" disabled={saving}>
+            <Button type="button" onClick={onClose} variant="secondary">Cancel</Button>
+            <Button type="submit" variant="default" disabled={saving}>
               {saving ? 'Saving...' : 'Save'}
             </Button>
           </div>

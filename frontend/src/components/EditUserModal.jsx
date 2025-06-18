@@ -5,6 +5,7 @@ import { Button } from '../components/ui/button';
 export default function EditUserModal({ user, open, onClose, onSave }) {
   const [form, setForm] = useState(user || {});
   const [saving, setSaving] = useState(false);
+  const [error, setError] = useState("");
 
   React.useEffect(() => {
     setForm(user || {});
@@ -16,9 +17,25 @@ export default function EditUserModal({ user, open, onClose, onSave }) {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
+  const validate = () => {
+    if (!form.name?.trim()) return "Name is required.";
+    if (!form.email?.trim()) return "Email is required.";
+    if (!/^\S+@\S+\.\S+$/.test(form.email)) return "Invalid email format.";
+    if (form.phone && !/^\d{6,15}$/.test(form.phone)) return "Phone must be numbers only (6-15 digits).";
+    if (!form.role) return "Role is required.";
+    return "";
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSaving(true);
+    setError("");
+    const validationError = validate();
+    if (validationError) {
+      setError(validationError);
+      setSaving(false);
+      return;
+    }
     await onSave(form);
     setSaving(false);
   };
@@ -64,9 +81,10 @@ export default function EditUserModal({ user, open, onClose, onSave }) {
             <option value="admin">Admin</option>
             <option value="user">User</option>
           </select>
+          {error && <div className="text-red-600 text-sm">{error}</div>}
           <div className="flex gap-2 mt-4">
-            <Button type="button" onClick={onClose} className="bg-gray-300 text-gray-800">Cancel</Button>
-            <Button type="submit" className="bg-blue-600 text-white" disabled={saving}>
+            <Button type="button" onClick={onClose} variant="secondary">Cancel</Button>
+            <Button type="submit" variant="default" disabled={saving}>
               {saving ? 'Saving...' : 'Save'}
             </Button>
           </div>

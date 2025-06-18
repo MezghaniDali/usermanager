@@ -97,14 +97,18 @@ export default function UsersPage() {
   }
 
   return (
-    <div className="max-w-7xl mx-auto py-8 px-4">
-      <header className="bg-white shadow">
-        <div className="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8 flex justify-between items-center">
-          <div className="flex items-center gap-2">
-            <Button size="sm" onClick={() => navigate(-1)} className="bg-black text-white hover:bg-gray-800">
+    <div className="min-h-screen bg-muted">
+      {/* Header */}
+      <header className="bg-white border-b">
+        <div className="max-w-7xl mx-auto px-4 py-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
+          <h1 className="text-lg font-semibold text-foreground flex-1 text-left">Manage Users</h1>
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4 w-full sm:w-auto justify-end">
+            <span className="text-sm text-muted-foreground order-1 w-full sm:w-auto text-left sm:text-right">
+              {user?.name ? `Admin: ${user.name}` : ''}
+            </span>
+            <Button size="sm" onClick={() => navigate(-1)} className="order-2 w-full sm:w-auto bg-black text-white hover:bg-gray-800">
               &#8592; Back
             </Button>
-            <h1 className="text-base font-semibold text-gray-900">Manage Users</h1>
           </div>
         </div>
       </header>
@@ -113,7 +117,7 @@ export default function UsersPage() {
           <Card className="p-6 text-center text-gray-500">Loading users...</Card>
         ) : (
           <>
-            <UsersTable users={allUsers} onUserEdit={handleUserEdit} onUserDeleted={handleUserDeleted} addUserButton={<Button className="bg-blue-600 text-white hover:bg-blue-700" onClick={() => setAddOpen(true)}>Add User</Button>} />
+            <UsersTable users={allUsers} onUserEdit={handleUserEdit} onUserDeleted={handleUserDeleted} addUserButton={<Button onClick={() => setAddOpen(true)} variant="default">Add User</Button>} />
             <EditUserModal user={editUser} open={editOpen} onClose={() => setEditOpen(false)} onSave={handleUserSave} />
             <AddUserModal open={addOpen} onClose={() => setAddOpen(false)} onSave={handleUserAdd} />
           </>

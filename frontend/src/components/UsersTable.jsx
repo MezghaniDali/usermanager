@@ -99,13 +99,13 @@ export default function UsersTable({ users, onUserDeleted, onUserEdit, addUserBu
                   ))}
                   <TableCell>
                     <div className="flex gap-2">
-                      <Button size="sm" className="bg-blue-600 hover:bg-blue-700 text-white px-2 py-1 text-xs"
+                      <Button size="sm" variant="default" className="px-2 py-1 text-xs"
                         onClick={() => onUserEdit ? onUserEdit(user) : alert('Edit not implemented')}
                         title="Edit"
                       >
                         <EditIcon />
                       </Button>
-                      <Button size="sm" className="bg-red-600 hover:bg-red-700 text-white px-2 py-1 text-xs"
+                      <Button size="sm" variant="destructive" className="px-2 py-1 text-xs"
                         onClick={() => handleDelete(user.id || user._id)}
                         disabled={deletingId === (user.id || user._id)}
                         title="Delete"

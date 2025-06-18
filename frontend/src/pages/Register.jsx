@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Button } from '../components/ui/button';
+import { Card } from '../components/ui/card';
 
 export default function Register() {
   const navigate = useNavigate();
@@ -12,13 +14,25 @@ export default function Register() {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
 
+  const validate = () => {
+    if (!name.trim()) return 'Name is required.';
+    if (!email.trim()) return 'Email is required.';
+    if (!/^\S+@\S+\.\S+$/.test(email)) return 'Invalid email format.';
+    if (!password) return 'Password is required.';
+    if (password.length < 8) return 'Password must be at least 8 characters.';
+    if (password !== passwordConfirmation) return 'Passwords do not match.';
+    if (phone && !/^\d{6,15}$/.test(phone)) return 'Phone must be numbers only (6-15 digits).';
+    return '';
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
     setLoading(true);
     setSuccess(false);
-    if (password !== passwordConfirmation) {
-      setError('Passwords do not match');
+    const validationError = validate();
+    if (validationError) {
+      setError(validationError);
       setLoading(false);
       return;
     }
@@ -41,57 +55,56 @@ export default function Register() {
   };
 
   return (
-    <div className="w-full flex justify-center items-center">
-      <form
-        onSubmit={handleSubmit}
-        className="bg-white p-8 rounded shadow-md w-full max-w-xs flex flex-col gap-3"
-      >
-        <h2 className="text-lg font-semibold mb-2">Register</h2>
-        <input
-          type="text"
-          placeholder="Name"
-          value={name}
-          onChange={e => setName(e.target.value)}
-          required
-          className="border rounded px-3 py-2"
-        />
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={e => setEmail(e.target.value)}
-          required
-          className="border rounded px-3 py-2"
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={e => setPassword(e.target.value)}
-          required
-          className="border rounded px-3 py-2"
-        />
-        <input
-          type="password"
-          placeholder="Confirm Password"
-          value={passwordConfirmation}
-          onChange={e => setPasswordConfirmation(e.target.value)}
-          required
-          className="border rounded px-3 py-2"
-        />
-        <input
-          type="text"
-          placeholder="Phone (optional)"
-          value={phone}
-          onChange={e => setPhone(e.target.value)}
-          className="border rounded px-3 py-2"
-        />
-        <button type="submit" disabled={loading} className="bg-black text-white rounded py-2 mt-2 disabled:opacity-50">
-          {loading ? 'Registering...' : 'Register'}
-        </button>
-        {error && <div className="text-red-600 text-sm">{error}</div>}
-        {success && <div className="text-green-600 text-sm">Registration successful! Redirecting...</div>}
-      </form>
+    <div className="w-full min-h-screen flex justify-center items-center bg-muted">
+      <Card className="w-full max-w-xs p-8 shadow-md">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-3">
+          <h2 className="text-lg font-semibold mb-2 text-center">Register</h2>
+          <input
+            type="text"
+            placeholder="Name"
+            value={name}
+            onChange={e => setName(e.target.value)}
+            required
+            className="border rounded px-3 py-2"
+          />
+          <input
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={e => setEmail(e.target.value)}
+            required
+            className="border rounded px-3 py-2"
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={e => setPassword(e.target.value)}
+            required
+            className="border rounded px-3 py-2"
+          />
+          <input
+            type="password"
+            placeholder="Confirm Password"
+            value={passwordConfirmation}
+            onChange={e => setPasswordConfirmation(e.target.value)}
+            required
+            className="border rounded px-3 py-2"
+          />
+          <input
+            type="text"
+            placeholder="Phone (optional)"
+            value={phone}
+            onChange={e => setPhone(e.target.value)}
+            className="border rounded px-3 py-2"
+          />
+          <Button type="submit" variant="default" disabled={loading}>
+            {loading ? 'Registering...' : 'Register'}
+          </Button>
+          {error && <div className="text-red-600 text-sm text-center">{error}</div>}
+          {success && <div className="text-green-600 text-sm text-center">Registration successful! Redirecting...</div>}
+        </form>
+      </Card>
     </div>
   );
 }

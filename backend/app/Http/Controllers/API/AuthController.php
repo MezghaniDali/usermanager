@@ -27,10 +27,12 @@ class AuthController extends Controller
         ]);
 
         if ($validator->fails()) {
+            $errors = $validator->errors();
+            $firstError = $errors->all()[0] ?? 'Validation failed';
             return response()->json([
                 'status' => 'error',
-                'message' => 'Validation failed',
-                'errors' => $validator->errors()
+                'message' => $firstError,
+                'errors' => $errors
             ], 422);
         }
 
