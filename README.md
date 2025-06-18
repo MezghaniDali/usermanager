@@ -35,7 +35,7 @@ On **Mac/Linux**:
 cp .env.example .env
 ```
 
-- Open `.env` and set your MongoDB Atlas URI and credentials.
+- Open `.env` and set your MongoDB Atlas URI and credentials(see below for details).
 
 **Install dependencies and run server**
 ```bash
@@ -134,7 +134,7 @@ DB_DATABASE=usermanager
 
 ## ⚙️ Technical Choices & Trade-offs
 
-- **Sanctum:** Attempted, replaced due to incompatibility with MongoDB
+- **Sanctum:** Attempted but replaced due to MongoDB integration issues. Custom token system used for demo purposes.
 - **jenssegers/laravel-mongodb:** Used for MongoDB Eloquent integration
 - **ShadCN UI:** For modern, accessible React component styling
 
