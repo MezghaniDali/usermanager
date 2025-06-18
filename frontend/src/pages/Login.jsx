@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../lib/AuthContext';
 import { Button } from '../components/ui/button';
 import { Card } from '../components/ui/card';
@@ -89,6 +89,11 @@ export default function Login() {
           {error && <div className="text-red-600 text-sm text-center">{error}</div>}
           {success && <div className="text-green-600 text-sm text-center">Login successful!</div>}
         </form>
+        <div className="mt-4 flex justify-center">
+          <Link to="/">
+            <Button variant="ghost" className="w-full">Back to Home</Button>
+          </Link>
+        </div>
       </Card>
     </div>
   );

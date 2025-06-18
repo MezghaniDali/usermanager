@@ -1,29 +1,28 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Button } from '@/components/ui/button'; // Assuming ShadCN Button path
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
 
 export default function Home() {
   return (
-    <div className="flex flex-col items-center justify-center min-h-[calc(100vh-64px)] p-4 text-center">
-      <h1 className="text-4xl font-bold mb-6 text-gray-800">
-        Welcome to Our Modern Web Application
-      </h1>
-      <p className="text-lg text-gray-600 mb-8 max-w-2xl">
-        Manage your users efficiently with a powerful Laravel API backend and a responsive React frontend powered by ShadCN UI.
-      </p>
-      <div className="flex space-x-4">
-        <Link to="/login">
-          <Button size="lg">Sign In</Button>
-        </Link>
-        <Link to="/register">
-          <Button size="lg" variant="outline">
-            Sign Up
-          </Button>
-        </Link>
-      </div>
-      <p className="mt-12 text-sm text-gray-500">
-        Built with Laravel, React, ShadCN UI, and MongoDB Atlas.
-      </p>
+    <div className="w-full min-h-screen flex justify-center items-center bg-muted">
+      <Card className="w-full max-w-xs p-8 shadow-md flex flex-col items-center">
+        <h1 className="text-3xl font-bold mb-8 text-gray-900 text-center">
+          User Manager
+        </h1>
+        <div className="flex space-x-4 w-full justify-center">
+          <Link to="/login" className="w-1/2">
+            <Button size="lg" className="w-full">
+              Sign In
+            </Button>
+          </Link>
+          <Link to="/register" className="w-1/2">
+            <Button size="lg" variant="outline" className="w-full">
+              Sign Up
+            </Button>
+          </Link>
+        </div>
+      </Card>
     </div>
   );
 }
